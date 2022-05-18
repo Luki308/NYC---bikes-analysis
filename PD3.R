@@ -8,6 +8,7 @@ m19 <- as.data.frame(m19)
 m20 <- as.data.frame(m20)
 m22 <- as.data.frame(m22)
 
+?difftime
 
 m20 %>%
   select(starttime,tripduration) %>%
@@ -21,8 +22,9 @@ m19 %>%
   group_by(starttime) %>%
   summarise(Count = n(), Avg = mean(tripduration/60)) -> wynik19
 
-m20 %>%
-  select(starttime,tripduration) %>%
-  mutate(starttime = substr(starttime,1,10)) %>%
-  group_by(starttime) %>%
-  summarise(Count = n(), Avg = mean(tripduration/60)) -> wynik22
+m22 %>%
+  select(started_at, ended_at) %>%
+  mutate(tripduration = difftime(ended_at, started_at)) %>%
+  mutate(started_at = substr(started_at,1,10)) %>%
+  group_by(started_at) %>%
+  summarise(Count = n(), Avg = mean(tripduration)) -> wynik22
