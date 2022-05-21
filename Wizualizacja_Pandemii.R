@@ -9,6 +9,7 @@
 
 library(shiny)
 library(ggplot2)
+load("Dane_wyliczone.RData")
 #source("PD3.R")
 
 # Define UI for application that draws a histogram
@@ -20,10 +21,13 @@ ui <- fluidPage(
     # Sidebar
     sidebarLayout(
         sidebarPanel(
-          selectInput("month", label = "Miesiac",
-                      choices = list("2019",
-                                     "2020",
-                                     "2022"),
+          selectInput("month", label = "Wybierz rok",
+                      choices = list("2019 - marzec",
+                                     "2019 - kwiecien",
+                                     "2020 - marzec",
+                                     "2020 - kwiecien",
+                                     "2021 - marzec",
+                                     "2022 - marzec"),
                       selected = "2019")
         ),
 
@@ -41,11 +45,14 @@ server <- function(input, output) {
 
     output$countPlot <- renderPlot({
         datasetInput <- switch( input$month,
-                                "2019" = wynik19,
-                                "2020" = wynik20,
-                                "2022" = wynik22)
+                                "2019 - marzec" = wynik19m,
+                                "2019 - kwiecien" = wynik19k,
+                                "2020 - marzec" = wynik20m,
+                                "2020 - kwiecien" = wynik20k,
+                                "2021 - marzec" = wynik21,
+                                "2022 - marzec" = wynik22)
         
-        x <- as.Date(unlist(datasetInput[,1]))
+        x <- unlist(datasetInput[,1])
         y <- unlist(datasetInput[,2])/1000
 
         options(scipen=9) 
@@ -54,11 +61,14 @@ server <- function(input, output) {
     })
     output$avgPlot <- renderPlot({
       datasetInput <- switch( input$month,
-                              "2019" = wynik19,
-                              "2020" = wynik20,
-                              "2022" = wynik22)
+                              "2019 - marzec" = wynik19m,
+                              "2019 - kwiecien" = wynik19k,
+                              "2020 - marzec" = wynik20m,
+                              "2020 - kwiecien" = wynik20k,
+                              "2021 - marzec" = wynik21,
+                              "2022 - marzec" = wynik22)
       
-      x <- as.Date(unlist(datasetInput[,1]))
+      x <- unlist(datasetInput[,1])
       y <- unlist(datasetInput[,3])
       
       plot(x, y, ylim = c(0,30), type = "l", col = 'red', border = 'white'
