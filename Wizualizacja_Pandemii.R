@@ -57,7 +57,7 @@ server <- function(input, output) {
 
         options(scipen=9) 
         plot(x, y, ylim = c(0, 100) , type = "l", col = 'red', border = 'white'
-             ,xlab = "Data", ylab = "Liczba Przejazdow [tys]", main = "Liczba przejazdów w marcu danego roku [tys]")
+             ,xlab = "Data", ylab = "Liczba Przejazdow [tys]", main = "Liczba przejazdów w danym okresie [tys]")
     })
     output$avgPlot <- renderPlot({
       datasetInput <- switch( input$month,
@@ -72,7 +72,7 @@ server <- function(input, output) {
       y <- unlist(datasetInput[,3])
       
       plot(x, y, ylim = c(0,30), type = "l", col = 'red', border = 'white'
-           ,xlab = "Data", ylab = "Średni czas trwania przejazdu [min]", main = "Sredni czas trwania przejazdów w marcu danego roku [min]")
+           ,xlab = "Data", ylab = "Średni czas trwania przejazdu [min]", main = "Sredni czas trwania przejazdów w danym okresie [min]")
     })
 }
 
