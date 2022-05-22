@@ -19,10 +19,14 @@ k22 %>%
                    address = address_found, full_results = TRUE)
  
  stacje_district_clean <- stacje_district %>%
-                            mutate(City = ifelse(City == "New York", "Manhattan", City))
+                            mutate(City = ifelse(City == "New York", "Manhattan", City)) %>%
+                            mutate(City = ifelse(City == "Astoria", "Queens", City))
  
  stacje_nbh_clean <- stacje_nbh %>%
                       filter(is.na(neighbourhood) == FALSE)
+ 
+ stacje_test <- stacje_district %>%
+                    filter(stacje_district$Neighborhood == "")
  
  
 ?reverse_geocode
