@@ -1,7 +1,6 @@
 # Mapa pokazująca zagęszczenie korzystania ze stacji rowerowych w poszczególnych
 # osiedlach NYC
 #https://rpubs.com/jhofman/nycmaps
-install.packages("sf")
 load("Dane_lokalizacyjne.RData")
 library(ggplot2)
 library(dplyr)
@@ -16,6 +15,8 @@ nyc_neighborhoods <- readOGR(content(r,'text'), 'OGRGeoJSON', verbose = F)
 
 nyc_neighborhoods_df <- tidy(nyc_neighborhoods)
 
+
+#Polaczyc stacje z iloscia przejzadow (startowych + konczonych - osobne kolumny)
 
 # Przypisywanie stacjom okolicy (neighborhood)
 points <- stacje[,c(3,4)]
