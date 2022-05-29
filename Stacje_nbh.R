@@ -52,7 +52,8 @@ start_station <- left_join(x = start_station,
 
 end_station <- k22 %>%
   group_by(end_station_id) %>%
-  summarise(Count = n())
+  summarise(Count = n()) %>%
+  filter(end_station_id != "")
 
 end_station <- left_join(x = end_station,
                          y = points,

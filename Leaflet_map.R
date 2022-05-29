@@ -25,7 +25,7 @@ leaflet(plot_data) %>%
             opacity = 1
   ) %>%
   addProviderTiles("CartoDB.Positron") %>%
-  setView(-74.00, 40.71, zoom = 12)
+  setView(-74.00, 40.71, zoom = 12) -> mapa1
 
 
 ######### 2
@@ -45,7 +45,7 @@ leaflet(plot_data2) %>%
             opacity = 1
   ) %>%
   addProviderTiles("CartoDB.Positron") %>%
-  setView(-74.00, 40.71, zoom = 12)
+  setView(-74.00, 40.71, zoom = 12) -> mapa2
 
 
 ######### 3
@@ -65,4 +65,6 @@ leaflet(plot_data3) %>%
             opacity = 1
   ) %>%
   addProviderTiles("CartoDB.Positron") %>%
-  setView(-74.00, 40.71, zoom = 12)
+  setView(-74.00, 40.71, zoom = 12) -> mapa3
+
+#remove(list = c("end_station","ilosc_w_neighborhood","nyc_neighborhoods","plot_data","plot_data2","plot_data3","points","start_station","pal","pal2","pal3"))

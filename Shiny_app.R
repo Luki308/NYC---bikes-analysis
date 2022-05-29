@@ -9,17 +9,20 @@
 
 library(shiny)
 library(ggplot2)
+library(leaflet)
 load("Dane_wyliczone.RData")
+load("Mapy.RData")
 #source("PD3.R")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+    navbarPage("Pomysły:",
     # Application title
-    titlePanel("Pomysł nr 1"),
+    # titlePanel("Pomysł nr 1"),
 
     # Sidebar
-    sidebarLayout(
+    #sidebarLayout(
+    tabPanel("1.",
         sidebarPanel(
           selectInput("month", label = "Wybierz rok",
                       choices = list("2019 - marzec",
@@ -36,7 +39,19 @@ ui <- fluidPage(
            plotOutput("countPlot"),
            plotOutput("avgPlot")
         )
+    ),
+    tabPanel("2.",
+             br(),
+             h3("Mapa1"),
+             leafletOutput("mapa1"),
+             br(),
+             h3("Mapa2"),
+             leafletOutput("mapa2"),
+             br(),
+             h3("Mapa3"),
+             leafletOutput("mapa3")
     )
+  )
 )
 
 # Define server logic required to draw a histogram
@@ -74,6 +89,11 @@ server <- function(input, output) {
       plot(x, y, ylim = c(0,30), type = "l", col = 'red', border = 'white'
            ,xlab = "Data", ylab = "Średni czas trwania przejazdu [min]", main = "Sredni czas trwania przejazdów w danym okresie [min]")
     })
+    
+    output$mapa1 <- renderLeaflet(mapa1)
+    output$mapa2 <- renderLeaflet(mapa2)
+    output$mapa3 <- renderLeaflet(mapa3)
+    
 }
 
 # Run the application 
