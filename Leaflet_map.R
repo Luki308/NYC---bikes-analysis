@@ -1,4 +1,3 @@
-install.packages("leaflet")
 library(leaflet)
 library(dplyr)
 library(sp)
@@ -19,7 +18,7 @@ leaflet(plot_data) %>%
   addTiles() %>%
   addPolygons(color = "black", weight = 1 , opacity = 1,
               fillColor = ~pal(Count), fillOpacity = 0.9,
-              popup = ~neighborhood) %>%
+              popup = ~paste(neighborhood, "<br/> Liczba:", Count)) %>%
   addLegend("bottomright", pal = pal, values = ~Count,
             title = "Liczba stacji na osiedlach",
             opacity = 1
@@ -39,9 +38,9 @@ leaflet(plot_data2) %>%
   addTiles() %>%
   addPolygons(color = "black", weight = 1 , opacity = 1,
               fillColor = ~pal2(Count), fillOpacity = 0.9,
-              popup = ~neighborhood) %>%
+              popup = ~ paste(neighborhood, "<br/> Liczba:", Count)) %>%
   addLegend("bottomright", pal = pal2, values = ~Count,
-            title = "Liczba przejazdow (Start) na osiedlach",
+            title = "Liczba przejazdow (Start)",
             opacity = 1
   ) %>%
   addProviderTiles("CartoDB.Positron") %>%
@@ -59,9 +58,9 @@ leaflet(plot_data3) %>%
   addTiles() %>%
   addPolygons(color = "black", weight = 1 , opacity = 1,
               fillColor = ~pal3(Count), fillOpacity = 0.9,
-              popup = ~neighborhood) %>%
+              popup = ~paste(neighborhood, "<br/> Liczba:", Count)) %>%
   addLegend("bottomright", pal = pal3, values = ~Count,
-            title = "Liczba przejazdow (Koniec) na osiedlach",
+            title = "Liczba przejazdow (Koniec)",
             opacity = 1
   ) %>%
   addProviderTiles("CartoDB.Positron") %>%

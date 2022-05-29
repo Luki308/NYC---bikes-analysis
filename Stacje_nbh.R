@@ -48,7 +48,9 @@ start_station <- k22 %>%
 
 start_station <- left_join(x = start_station,
                                 y = points,
-                                by = c("start_station_id" = "ID"))
+                                by = c("start_station_id" = "ID")) %>%
+  group_by(neighborhood) %>%
+  summarise(Count = sum(Count))
 
 end_station <- k22 %>%
   group_by(end_station_id) %>%
@@ -57,7 +59,9 @@ end_station <- k22 %>%
 
 end_station <- left_join(x = end_station,
                          y = points,
-                         by = c("end_station_id" = "ID"))
+                         by = c("end_station_id" = "ID")) %>%
+  group_by(neighborhood) %>%
+  summarise(Count = sum(Count))
 
 plot_data <- tidy(nyc_neighborhoods, region="neighborhood") %>%
   left_join(., ilosc_w_neighborhood, by=c("id"="neighborhood")) %>%

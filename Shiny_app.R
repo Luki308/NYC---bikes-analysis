@@ -11,8 +11,7 @@ library(shiny)
 library(ggplot2)
 library(leaflet)
 load("Dane_wyliczone.RData")
-load("Mapy.RData")
-#source("PD3.R")
+#load("Mapy.RData")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -41,6 +40,7 @@ ui <- fluidPage(
         )
     ),
     tabPanel("2.",
+        mainPanel(
              br(),
              h3("Mapa1"),
              leafletOutput("mapa1"),
@@ -50,6 +50,7 @@ ui <- fluidPage(
              br(),
              h3("Mapa3"),
              leafletOutput("mapa3")
+      )
     )
   )
 )
