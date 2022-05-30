@@ -63,12 +63,12 @@ end_station <- left_join(x = end_station,
   group_by(neighborhood) %>%
   summarise(Count = sum(Count))
 
-plot_data <- tidy(nyc_neighborhoods, region="neighborhood") %>%
-  left_join(., ilosc_w_neighborhood, by=c("id"="neighborhood")) %>%
-  filter(!is.na(Count))
+# plot_data <- tidy(nyc_neighborhoods, region="neighborhood") %>%
+#   left_join(., ilosc_w_neighborhood, by=c("id"="neighborhood")) %>%
+#   filter(!is.na(Count))
 
-ggplot() + 
-  geom_polygon(data=plot_data, aes(x=long, y=lat, group=group, color = "red", fill = Count), alpha = 0.75)
+# ggplot() + 
+#   geom_polygon(data=plot_data, aes(x=long, y=lat, group=group, color = "red", fill = Count), alpha = 0.75)
 
 
 

@@ -2,9 +2,6 @@
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
 #
 
 library(shiny)
@@ -14,8 +11,9 @@ library(sp)
 library(tigris) #geo_join
 
 load("Dane_wyliczone.RData")
-load("Mapy.RData")
+#load("Mapy.RData")
 load("Stacje_z_osiedlami.RData")
+load("Marce_histogram.RData")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -24,41 +22,71 @@ ui <- fluidPage(
     # titlePanel("Pomysł nr 1"),
 
     # Sidebar
-    #sidebarLayout(
+    
     tabPanel("1.",
-        sidebarPanel(
-          selectInput("month", label = "Wybierz rok",
-                      choices = list("2019 - marzec",
-                                     "2019 - kwiecien",
-                                     "2020 - marzec",
-                                     "2020 - kwiecien",
-                                     "2021 - marzec",
-                                     "2022 - marzec"),
-                      selected = "2019")
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("countPlot"),
-           plotOutput("avgPlot")
-        )
+        verticalLayout(
+          titlePanel("Badanie wpływu pandemii na ruch"),
+          sidebarLayout(
+            sidebarPanel(
+              selectInput("month", label = "Wybierz rok",
+                          choices = list("2019 - marzec",
+                                         "2019 - kwiecien",
+                                         "2020 - marzec",
+                                         "2020 - kwiecien",
+                                         "2021 - marzec",
+                                         "2022 - marzec"),
+                          selected = "2019", width = 200), width = 4
+            ),
+    
+            # Show a plot of the generated distribution
+            mainPanel(
+               plotOutput("countPlot", width = 500),
+               plotOutput("avgPlot", width = 500), width = 8
+            ),
+          ),
+          fluidRow(
+            column(12,align="center",
+                   plotOutput("lata_count_plot", width = 500)
+            )
+          ),
+          fluidRow(
+            column(12,align="center",
+                   plotOutput("lata_avg_plot", width = 500)
+            )
+          )
+      )
     ),
     tabPanel("2.",
-        mainPanel(
-             br(),
-             h3("Mapa1"),
-             leafletOutput("mapa1"),
-             br(),
-             h3("Mapa2"),
-             leafletOutput("mapa2"),
-             br(),
-             h3("Mapa3"),
-             leafletOutput("mapa3")
+        verticalLayout(
+          fluidRow(
+            column(12,align="center",
+              br(),
+              h3("Mapa1"),
+              leafletOutput("mapa1", height = 500 , width = 800))
+            ),
+          fluidRow(
+            column(12,align="center",
+                   br(),
+                   h3("Mapa2"),
+                   leafletOutput("mapa2", height = 500 , width = 800))
+          ),
+          fluidRow(
+            column(12,align="center",
+                   br(),
+                   h3("Mapa3"),
+                   leafletOutput("mapa3", height = 500 , width = 800))
+          ),
+             # br(),
+             # h3("Mapa2"),
+             # leafletOutput("mapa2", height = 500),
+             # br(),
+             # h3("Mapa3"),
+             # leafletOutput("mapa3", height = 500)
       )
     )
   )
 )
-
+?fluidRow
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
@@ -69,8 +97,8 @@ server <- function(input, output) {
                                 "2019 - kwiecien" = wynik19k,
                                 "2020 - marzec" = wynik20m,
                                 "2020 - kwiecien" = wynik20k,
-                                "2021 - marzec" = wynik21,
-                                "2022 - marzec" = wynik22)
+                                "2021 - marzec" = wynik21m,
+                                "2022 - marzec" = wynik22m)
         
         x <- unlist(datasetInput[,1])
         y <- unlist(datasetInput[,2])/1000
@@ -85,15 +113,18 @@ server <- function(input, output) {
                               "2019 - kwiecien" = wynik19k,
                               "2020 - marzec" = wynik20m,
                               "2020 - kwiecien" = wynik20k,
-                              "2021 - marzec" = wynik21,
-                              "2022 - marzec" = wynik22)
+                              "2021 - marzec" = wynik21m,
+                              "2022 - marzec" = wynik22m)
       
       x <- unlist(datasetInput[,1])
       y <- unlist(datasetInput[,3])
       
-      plot(x, y, ylim = c(0,30), type = "l", col = 'red', border = 'white'
+      plot(x, y, ylim = c(0,31), type = "l", col = 'red', border = 'white'
            ,xlab = "Data", ylab = "Średni czas trwania przejazdu [min]", main = "Sredni czas trwania przejazdów w danym okresie [min]")
     })
+    
+    output$lata_count_plot <- renderPlot(lata_count_plot)
+    output$lata_avg_plot <- renderPlot(lata_avg_plot)
     
     output$mapa1 <- renderLeaflet({plot_data <- geo_join(nyc_neighborhoods, ilosc_w_neighborhood,
                                                         "neighborhood", "neighborhood",
@@ -152,7 +183,6 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
 
 
 
