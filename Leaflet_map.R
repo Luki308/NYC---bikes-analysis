@@ -26,7 +26,6 @@ leaflet(plot_data) %>%
   addProviderTiles("CartoDB.Positron") %>%
   setView(-74.00, 40.71, zoom = 12) -> mapa1
 
-
 ######### 2
 plot_data2 <-  geo_join(nyc_neighborhoods, start_station,
                         "neighborhood", "neighborhood",
