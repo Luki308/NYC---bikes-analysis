@@ -1,5 +1,8 @@
+# Skrypt przydzielajacy stacjom osiedla i liczacy liczbe stacji oraz przejazdow
+
 # Mapa pokazująca zagęszczenie korzystania ze stacji rowerowych w poszczególnych
-# osiedlach NYC
+# osiedlach NYC - NIEAKTUALNE
+
 #https://rpubs.com/jhofman/nycmaps
 library(ggplot2)
 library(dplyr)

@@ -10,24 +10,24 @@ library(leaflet)
 library(sp)
 library(tigris) #geo_join
 
+
 load("Dane_wyliczone.RData")
-#load("Mapy.RData")
-load("Stacje_z_osiedlami.RData")
 load("Marce_histogram.RData")
+load("Stacje_z_osiedlami.RData")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     navbarPage("Pomysły:",
-    # Application title
-    # titlePanel("Pomysł nr 1"),
 
-    # Sidebar
+    # Zakladka 1
     
     tabPanel("1.",
         verticalLayout(
           titlePanel("Badanie wpływu pandemii na ruch"),
           sidebarLayout(
             sidebarPanel(
+              # Wybor
               selectInput("month", label = "Wybierz rok",
                           choices = list("2019 - marzec",
                                          "2019 - kwiecien",
@@ -38,12 +38,14 @@ ui <- fluidPage(
                           selected = "2019", width = 200), width = 4
             ),
     
-            # Show a plot of the generated distribution
+            # Wykresy
             mainPanel(
                plotOutput("countPlot", width = 500),
                plotOutput("avgPlot", width = 500), width = 8
             ),
           ),
+          
+          # Histogramy
           fluidRow(
             column(12,align="center",
                    plotOutput("lata_count_plot", width = 500)
@@ -56,8 +58,10 @@ ui <- fluidPage(
           )
       )
     ),
+    # Zakladka 2
     tabPanel("2.",
         verticalLayout(
+          # Mapy Interaktywne
           fluidRow(
             column(12,align="center",
               br(),
@@ -76,21 +80,15 @@ ui <- fluidPage(
                    h3("Mapa3"),
                    leafletOutput("mapa3", height = 500 , width = 800))
           ),
-             # br(),
-             # h3("Mapa2"),
-             # leafletOutput("mapa2", height = 500),
-             # br(),
-             # h3("Mapa3"),
-             # leafletOutput("mapa3", height = 500)
       )
     )
   )
 )
-?fluidRow
+
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-
+    # Wybor - wykres_count
     output$countPlot <- renderPlot({
         datasetInput <- switch( input$month,
                                 "2019 - marzec" = wynik19m,
@@ -107,6 +105,7 @@ server <- function(input, output) {
         plot(x, y, ylim = c(0, 100) , type = "l", col = 'red', border = 'white'
              ,xlab = "Data", ylab = "Liczba Przejazdow [tys]", main = "Liczba przejazdów w danym okresie [tys]")
     })
+    # Wybor - wykres_avg
     output$avgPlot <- renderPlot({
       datasetInput <- switch( input$month,
                               "2019 - marzec" = wynik19m,
@@ -123,9 +122,13 @@ server <- function(input, output) {
            ,xlab = "Data", ylab = "Średni czas trwania przejazdu [min]", main = "Sredni czas trwania przejazdów w danym okresie [min]")
     })
     
+    
+    # Histogramy
     output$lata_count_plot <- renderPlot(lata_count_plot)
     output$lata_avg_plot <- renderPlot(lata_avg_plot)
     
+    
+    # Mapy interaktywne
     output$mapa1 <- renderLeaflet({plot_data <- geo_join(nyc_neighborhoods, ilosc_w_neighborhood,
                                                         "neighborhood", "neighborhood",
                                                         how = 'inner')
