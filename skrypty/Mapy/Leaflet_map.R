@@ -1,9 +1,14 @@
+# Skrypt jest w calosci przeniesiony do shiny, bo inaczej nie dzialalo
+
+# Skrypt generujacy mapy interaktywne na postawie danych wyliczonych w "Stacje_nbh"
+
+
 library(leaflet)
 library(dplyr)
 library(sp)
 library(tigris) #geo_join
 
-load("Stacje_z_osiedlami.RData")
+load("shiny/Stacje_z_osiedlami.RData")
 
 
 ######### 1
