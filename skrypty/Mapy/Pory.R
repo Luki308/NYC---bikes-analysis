@@ -73,13 +73,22 @@ leaflet(plot_data2) %>%
   addProviderTiles("CartoDB.Positron") %>%
   setView(-74.00, 40.71, zoom = 12) -> morning_end
 
-#ls()
-#rm(list = ls()[-c(5,6,7)])
 
+for(l in LETTERS[1:10]){
+  morning_start <- morning_start %>%
+    addPolylines(data = busy_connections[busy_connections$group == l,],
+                 lng = ~Lng,
+                 lat = ~Lat,
+                 color = "black",
+                 opacity = 1,
+                 popup = ~paste("Liczba:", Count))
+}
+morning_start
 
 
 morning_compare <- inner_join(start_station_morning,end_station_morning, by = "neighborhood") %>%
   rename(Count_start = Count.x , Count_end = Count.y ) %>%
   filter(Count_start >= 1.6*Count_end  & Count_start > 2000)
 
-
+#ls()
+#rm(list = ls()[-c(10,11,12)])
