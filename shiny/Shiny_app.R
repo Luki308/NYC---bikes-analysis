@@ -14,7 +14,7 @@ library(tigris) #geo_join
 load("Dane_wyliczone.RData")
 load("Marce_histogram.RData")
 load("Stacje_z_osiedlami.RData")
-
+load("Morning_maps.RData")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -81,6 +81,30 @@ ui <- fluidPage(
                    leafletOutput("mapa3", height = 500 , width = 800))
           ),
       )
+    ),
+    tabPanel("3.",
+             verticalLayout(
+               # Mapy Interaktywne - Poranek
+               fluidRow(
+                 column(12,align="center",
+                        br(),
+                        h3("Mapa Początków Tras"),
+                        leafletOutput("morning_s", height = 500 , width = 800))
+               ),
+               fluidRow(
+                 column(12,align="center",
+                        br(),
+                        h3("Mapa Końców Tras"),
+                        leafletOutput("morning_e", height = 500 , width = 800))
+               ),
+               fluidRow(
+                 column(12,align="center",
+                        br(),
+                        h3("Tabelka pokazująca gdzie jest co najmniej 60% więcej
+                           poczatków podróży niż konców (>2000 przejazdow)"),
+                        tableOutput("morning_compare"))
+               )
+             )
     )
   )
 )
@@ -182,6 +206,10 @@ server <- function(input, output) {
                                     addProviderTiles("CartoDB.Positron") %>%
                                     setView(-74.00, 40.71, zoom = 12)})
     
+    
+    output$morning_s <- renderLeaflet(morning_start)
+    output$morning_e <- renderLeaflet(morning_end)
+    output$morning_compare <- renderTable(morning_compare)
 }
 
 # Run the application 

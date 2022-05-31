@@ -4,7 +4,7 @@
 # osiedlach NYC - NIEAKTUALNE
 
 #https://rpubs.com/jhofman/nycmaps
-library(ggplot2)
+#library(ggplot2)
 library(dplyr)
 library(httr) #GET geojson
 library(rgdal) #readOGR - przekształca geojson na Spatial Data Frame; także sp
@@ -21,17 +21,18 @@ k22 %>%
 r <- GET('http://data.beta.nyc//dataset/0ff93d2d-90ba-457c-9f7e-39e47bf2ac5f/resource/35dd04fb-81b3-479b-a074-a27a37888ce7/download/d085e2f8d0b54d4590b1e7d1f35594c1pediacitiesnycneighborhoods.geojson')
 nyc_neighborhoods <- readOGR(content(r,'text'), 'OGRGeoJSON', verbose = F)
 
-nyc_neighborhoods_df <- tidy(nyc_neighborhoods) # wielokąty dla każdego osiedla (rozpoznawanego po id)
+#nyc_neighborhoods_df <- tidy(nyc_neighborhoods) # wielokąty dla każdego osiedla (rozpoznawanego po id)
 
 #Polaczyc stacje z iloscia przejzadow (startowych + konczonych - osobne kolumny)
 
 # Przypisywanie stacjom okolicy (neighborhood)
-points <- stacje[,c(1,3,4)]
+points <- stacje[,c(1,2,3,4)]
 points_spdf <- points
 coordinates(points_spdf) <- ~Lng +  Lat                      #przekształcanie na Spatial df,
 proj4string(points_spdf) <- proj4string(nyc_neighborhoods)   #system zmiany systemu współrzędnych?
 matches <- over(points_spdf, nyc_neighborhoods)              # "nakładanie" punktów na wielokąty (osiedla), przypisywanie stacji osiedlom
-points <- cbind (points, matches)                            # przydzielenie stacjom ich osiedli                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+stacje <- cbind (points, matches)                            # przydzielenie stacjom ich osiedli                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+stacje <- stacje[,-8]
 
 # Inaczej:
 # coords <- stacje[,c(3,4)]
@@ -41,7 +42,7 @@ points <- cbind (points, matches)                            # przydzielenie sta
 # matches2 <- over(data, nyc_neighborhoods)
 
 
-ilosc_w_neighborhood <- points %>%
+ilosc_w_neighborhood <- stacje %>%
   group_by(neighborhood) %>%
   summarise(Count = n())
 
@@ -50,7 +51,7 @@ start_station <- k22 %>%
   summarise(Count = n())
 
 start_station <- left_join(x = start_station,
-                                y = points,
+                                y = stacje,
                                 by = c("start_station_id" = "ID")) %>%
   group_by(neighborhood) %>%
   summarise(Count = sum(Count))
@@ -61,7 +62,7 @@ end_station <- k22 %>%
   filter(end_station_id != "")
 
 end_station <- left_join(x = end_station,
-                         y = points,
+                         y = stacje,
                          by = c("end_station_id" = "ID")) %>%
   group_by(neighborhood) %>%
   summarise(Count = sum(Count))
