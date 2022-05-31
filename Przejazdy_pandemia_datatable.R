@@ -34,3 +34,8 @@ ggplot(wynik19, aes(x = Day, y = RidesCount)) + geom_point(color = "red") +
 ggplot(wynik19, aes(x = Day, y = AvgTimeDuration)) + geom_point(color = "red") +
   geom_point(data = wynik20, aes(x = Day, y = AvgTimeDuration), color = "blue") +
   geom_point(data = wynik22, aes(x = Day, y = AvgTimeDuration), color = "green")
+
+####
+m19[,.(Count = .N),by=usertype][,.(Count=Count/sum(Count))]
+m19[,.(Count = .N),by=gender][,.(Count=Count/sum(Count))]
+m19[,.(Count = .N),by=birth.year]
