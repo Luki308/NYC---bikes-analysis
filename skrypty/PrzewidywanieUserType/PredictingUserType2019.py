@@ -16,7 +16,7 @@ from sklearn.preprocessing import MinMaxScaler
 def main():
 
     # Wczytujemy dane z 2019:
-    df = pd.concat([pd.read_csv("data/2019/2019"+str(i).zfill(2)+"-citibike-tripdata.csv") for i in range(1,7)])
+    df = pd.concat([pd.read_csv("../../data/2019/2019"+str(i).zfill(2)+"-citibike-tripdata.csv") for i in range(1,7)])
 
     # # Pozbywamy się wierszy z NA
     # df = df.dropna()
