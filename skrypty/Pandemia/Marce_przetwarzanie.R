@@ -60,9 +60,15 @@ m22 %>%
   group_by(started_at) %>%
   summarise(Count = n(), Avg = mean(tripduration)) -> wynik22m
 
-# rm(m19)
-# rm(k19)
-# rm(m20)
-# rm(k20)
-# rm(m21)
-# rm(m22)
+rm(m18)
+rm(m19)
+rm(k19)
+rm(m20)
+rm(k20)
+rm(m21)
+rm(m22)
+
+save.image(file = "shiny/Dane_wyliczone")
+
+
+

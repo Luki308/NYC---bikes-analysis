@@ -44,4 +44,7 @@ df %>%
   geom_bar(stat='identity', colour = "black", fill = "springgreen3")+
   labs(y = "Sredni czas trwania[min]", x = "Rok", title = "Średni czas trwania przejazdow w kolejnych latach") -> lata_avg_plot
 
-#rm(list =ls(pattern = "wynik"))
+rm(list =ls(pattern = "wynik"))
+rm(list =ls(pattern = "df"))
+
+save.image(file = "shiny/Marce_histogram.RData")
