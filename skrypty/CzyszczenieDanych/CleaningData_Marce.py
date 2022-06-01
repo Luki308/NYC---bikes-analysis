@@ -13,8 +13,8 @@ def main():
 
     # Wczytanie danych
     data = []
-    for i in range(19, 23):
-        data.append(pd.read_csv("data/marce/20" + str(i) + "03-citibike-tripdata.csv", low_memory=False))
+    for i in range(18, 23):
+        data.append(pd.read_csv("../../data/marce/20" + str(i) + "03-citibike-tripdata.csv", low_memory=False))
 
     # Czyszczenie
     for i in range(len(data)):
@@ -45,7 +45,7 @@ def main():
         df = df.query('5 < speed < 40')
         df = df.drop(columns=["distance","speed"])
         print(f"Po czyszczeniu: {len(df)}")
-        df.to_csv("cleandata/marce/20" + str(19+i) + "03-citibike-tripdata.csv")
+        df.to_csv("../../cleandata/marce/20" + str(18+i) + "03-citibike-tripdata.csv")
 
 
 if __name__ == "__main__":

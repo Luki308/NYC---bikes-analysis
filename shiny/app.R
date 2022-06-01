@@ -14,7 +14,8 @@ library(tigris) #geo_join
 load("Dane_wyliczone.RData")
 load("Marce_histogram.RData")
 load("Stacje_z_osiedlami.RData")
-load("Morning_maps.RData")
+load("Morning_maps_data.RData")
+
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -100,9 +101,16 @@ ui <- fluidPage(
                fluidRow(
                  column(12,align="center",
                         br(),
-                        h3("Tabelka pokazująca gdzie jest co najmniej 60% więcej
-                           poczatków podróży niż konców (>2000 przejazdow)"),
+                        h3("Tabelka pokazująca gdzie jest co najmniej 50% więcej
+                           poczatków podróży niż konców (>10000 przejazdow)"),
                         tableOutput("morning_compare"))
+               ),
+               fluidRow(
+                 column(12,align="center",
+                        br(),
+                        h3("Tabelka pokazująca gdzie jest co najmniej 50% więcej
+                           końców podróży niż początków (>10000 przejazdow)"),
+                        tableOutput("morning_compare_end"))
                )
              )
     )
@@ -207,14 +215,49 @@ server <- function(input, output) {
                                     setView(-74.00, 40.71, zoom = 12)})
     
     
-    output$morning_s <- renderLeaflet(morning_start)
-    output$morning_e <- renderLeaflet(morning_end)
+    output$morning_s <- renderLeaflet({
+        leaflet(plot_data1) %>%
+        addTiles() %>%
+        addPolygons(color = "black", weight = 1 , opacity = 1,
+                    fillColor = ~pal(Count), fillOpacity = 0.9,
+                    popup = ~paste(neighborhood, "<br/> Liczba:", Count)) %>%
+        addLegend("bottomright", pal = pal, values = ~Count,
+                  title = "Liczba przejazdow (Start)",
+                  opacity = 1
+        ) %>%
+        addProviderTiles("CartoDB.Positron") %>%
+        setView(-74.00, 40.71, zoom = 12) -> morning_start
+      
+        for(l in LETTERS[1:10]){
+          morning_start <- morning_start %>%
+            addPolylines(data = busy_connections[busy_connections$group == l,],
+                         lng = ~Lng,
+                         lat = ~Lat,
+                         color = "black",#~pal2(Count),
+                         opacity = 1,
+                         popup = ~paste("Liczba:", Count))
+        }
+        morning_start})
+    output$morning_e <- renderLeaflet({
+        leaflet(plot_data2) %>%
+        addTiles() %>%
+        addPolygons(color = "black", weight = 1 , opacity = 1,
+                    fillColor = ~pal(Count), fillOpacity = 0.9,
+                    popup = ~paste(neighborhood, "<br/> Liczba:", Count)) %>%
+        addLegend("bottomright", pal = pal, values = ~Count,
+                  title = "Liczba przejazdow (Koniec)",
+                  opacity = 1
+        ) %>%
+        addProviderTiles("CartoDB.Positron") %>%
+        setView(-74.00, 40.71, zoom = 12) -> morning_end})
     output$morning_compare <- renderTable(morning_compare)
+    output$morning_compare_end <- renderTable(morning_compare_end)
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
 
 
-
+#library(rsconnect)
+#rsconnect::deployApp("D:/Studia - Pobrane Wykłady/MINI/Semestr 2/PDU/PD3/shiny")
 
