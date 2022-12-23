@@ -9,7 +9,7 @@ I conducted 2 analyses in R:
 1. Firstly I took a look at
 how did Covid 19 pandemy influenced
 travelling by bike. I fetched ride's count and time
-from marches since 2018 to 2022 and presented
+from Marches since 2018 to 2022 and presented
 them on interactive plots.
 
 2. Other analysis focused on presenting the
