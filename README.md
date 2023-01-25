@@ -1,5 +1,7 @@
 # NYC---bikes-analysis
 
+Authors: Łukasz Lepianka, Marta Szuwarska
+
 Project for university. We had to draw interesting insights from
 NYC CityBike dataset.
 
