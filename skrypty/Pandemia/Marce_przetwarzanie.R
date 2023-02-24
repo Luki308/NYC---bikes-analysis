@@ -1,12 +1,12 @@
 library(dplyr)
 
-m18 <- read.csv("data/marce/201803-citibike-tripdata.csv")
-m19 <- read.csv("data/marce/201903-citibike-tripdata.csv")
+m18 <- read.csv("cleandata/marce/201803-citibike-tripdata.csv")
+m19 <- read.csv("cleandata/marce/201903-citibike-tripdata.csv")
 k19 <- read.csv("data/marce/201904-citibike-tripdata.csv")
-m20 <- read.csv("data/marce/202003-citibike-tripdata.csv")
+m20 <- read.csv("cleandata/marce/202003-citibike-tripdata.csv")
 k20 <- read.csv("data/marce/202004-citibike-tripdata.csv")
-m21 <- read.csv("data/marce/202103-citibike-tripdata.csv")
-m22 <- read.csv("data/marce/202203-citibike-tripdata.csv")
+m21 <- read.csv("cleandata/marce/202103-citibike-tripdata.csv")
+m22 <- read.csv("cleandata/marce/202203-citibike-tripdata.csv")
 
 m18 <- as.data.frame(m18)
 m19 <- as.data.frame(m19)
@@ -68,7 +68,7 @@ rm(k20)
 rm(m21)
 rm(m22)
 
-save.image(file = "shiny/Dane_wyliczone")
+save.image(file = "shiny/Dane_wyliczone2.RData")
 
 
 

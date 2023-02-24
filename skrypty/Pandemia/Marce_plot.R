@@ -4,7 +4,7 @@
 library(dplyr)
 library(ggplot2)
 
-load("shiny/Dane_wyliczone.RData")
+load("shiny/Dane_wyliczone2.RData")
 
 df <- NULL
 df_temp <- wynik18m %>%

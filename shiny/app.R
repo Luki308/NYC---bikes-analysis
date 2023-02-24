@@ -11,7 +11,7 @@ library(sp)
 library(tigris) #geo_join
 
 
-load("Dane_wyliczone.RData")
+load("Dane_wyliczone2.RData")
 load("Marce_histogram.RData")
 load("Stacje_z_osiedlami.RData")
 load("Morning_maps_data.RData")
@@ -23,100 +23,88 @@ ui <- fluidPage(
 
     # Zakladka 1
     
-    tabPanel("1.",
-        verticalLayout(
-          titlePanel("Badanie wpływu pandemii na ruch"),
-          sidebarLayout(
-            sidebarPanel(
-              # Wybor
-              selectInput("month", label = "Wybierz rok",
-                          choices = list("2019 - marzec",
-                                         "2019 - kwiecien",
-                                         "2020 - marzec",
-                                         "2020 - kwiecien",
-                                         "2021 - marzec",
-                                         "2022 - marzec"),
-                          selected = "2019", width = 200), width = 4
-            ),
-    
-            # Wykresy
-            mainPanel(
-               plotOutput("countPlot", width = 500),
-               plotOutput("avgPlot", width = 500), width = 8
-            ),
-          ),
-          
-          # Histogramy
-          fluidRow(
-            column(12,align="center",
-                   plotOutput("lata_count_plot", width = 500)
-            )
-          ),
-          fluidRow(
-            column(12,align="center",
-                   plotOutput("lata_avg_plot", width = 500)
+    tabPanel("Pandemia",
+          verticalLayout(
+            titlePanel("Badanie wpływu pandemii na ruch"),
+            selectInput("month", label = "Wybierz rok",
+                        choices = list("2019 - marzec",
+                                       "2019 - kwiecien",
+                                       "2020 - marzec",
+                                       "2020 - kwiecien",
+                                       "2021 - marzec",
+                                       "2022 - marzec"),
+                        selected = "2019", width = 200),
+            splitLayout(
+              # Wykresy
+              verticalLayout(
+                plotOutput("countPlot"),
+                plotOutput("avgPlot"),
+              ),
+              # Histogramy
+              verticalLayout(
+                plotOutput("lata_count_plot"),
+                plotOutput("lata_avg_plot")
+              )
             )
           )
-      )
-    ),
+      ),
     # Zakladka 2
-    tabPanel("2.",
+    tabPanel("Mapy Ogólne",
         verticalLayout(
-          # Mapy Interaktywne
-          fluidRow(
-            column(12,align="center",
-              br(),
-              h3("Mapa1"),
-              leafletOutput("mapa1", height = 500 , width = 800))
-            ),
-          fluidRow(
             column(12,align="center",
                    br(),
-                   h3("Mapa2"),
-                   leafletOutput("mapa2", height = 500 , width = 800))
-          ),
-          fluidRow(
-            column(12,align="center",
-                   br(),
-                   h3("Mapa3"),
-                   leafletOutput("mapa3", height = 500 , width = 800))
-          ),
-      )
+                   h3("Liczba stacji na osiedlach"),
+                   leafletOutput("mapa1", height = 500 , width = 800)),
+            splitLayout(
+              column(12,align="center",
+                     br(),
+                     h3("Mapa Początków Tras"),
+                     leafletOutput("mapa2")),
+              column(12,align="center",
+                     br(),
+                     h3("Mapa Końców Tras"),
+                     leafletOutput("mapa3"))
+            )
+          )
     ),
-    tabPanel("3.",
-             verticalLayout(
+    tabPanel("Poranne godziny szczytu",
                # Mapy Interaktywne - Poranek
-               fluidRow(
-                 column(12,align="center",
-                        br(),
-                        h3("Mapa Początków Tras"),
-                        leafletOutput("morning_s", height = 500 , width = 800))
+              verticalLayout(
+                splitLayout(
+                   fluidRow(
+                     column(12,align="center",
+                            br(),
+                            h3("Mapa Początków Tras"),
+                            leafletOutput("morning_s", height = 500 , width = 800))
+                   ),
+                   fluidRow(
+                     column(12,align="center",
+                            br(),
+                            h4("Tabelka pokazująca gdzie jest co najmniej 50% więcej
+                             początków podróży niż końców (>10000 przejazdow)"),
+                            tableOutput("morning_compare")
+                            )
+                   )
                ),
-               fluidRow(
-                 column(12,align="center",
-                        br(),
-                        h3("Mapa Końców Tras"),
-                        leafletOutput("morning_e", height = 500 , width = 800))
-               ),
-               fluidRow(
-                 column(12,align="center",
-                        br(),
-                        h3("Tabelka pokazująca gdzie jest co najmniej 50% więcej
-                           poczatków podróży niż konców (>10000 przejazdow)"),
-                        tableOutput("morning_compare"))
-               ),
-               fluidRow(
-                 column(12,align="center",
-                        br(),
-                        h3("Tabelka pokazująca gdzie jest co najmniej 50% więcej
-                           końców podróży niż początków (>10000 przejazdow)"),
-                        tableOutput("morning_compare_end"))
-               )
+               splitLayout(
+                 fluidRow(
+                   column(12,align="center",
+                          br(),
+                          h3("Mapa Końców Tras"),
+                          leafletOutput("morning_e", height = 500 , width = 800))
+                 ),
+                 fluidRow(
+                   column(12,align="center",
+                          br(),
+                          h4("Tabelka pokazująca gdzie jest co najmniej 50% więcej
+                             końców podróży niż początków (>10000 przejazdow)"),
+                          tableOutput("morning_compare_end"))
+                 )
              )
+          )
     )
   )
 )
-
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
@@ -258,6 +246,6 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 
-#library(rsconnect)
-#rsconnect::deployApp("D:/Studia - Pobrane Wykłady/MINI/Semestr 2/PDU/PD3/shiny")
+# library(rsconnect)
+# rsconnect::deployApp("D:/Studia - Pobrane Wykłady/MINI/Semestr 2/PDU/PD3/shiny")
 
