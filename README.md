@@ -11,7 +11,7 @@ I conducted 2 analyses in R:
 1. Firstly I took a look at
 how did Covid 19 pandemy influenced
 travelling by bike. I fetched ride's count and time
-from Marches since 2018 to 2022 and presented
+from Marches since 2019 to 2022 and presented
 them on interactive plots.
 ![1](https://user-images.githubusercontent.com/76851989/221318659-59a43ba2-c530-4627-b1e7-ec5ccebb3db7.png)
 
