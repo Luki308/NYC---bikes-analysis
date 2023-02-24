@@ -16,10 +16,10 @@ from sklearn.preprocessing import MinMaxScaler
 def main():
 
     # Wczytujemy dane z 2019:
-    df = pd.concat([pd.read_csv("../../data/2019/2019"+str(i).zfill(2)+"-citibike-tripdata.csv") for i in range(1,7)])
+    df = pd.concat([pd.read_csv("data/2019/2019"+str(i).zfill(2)+"-citibike-tripdata.csv") for i in range(1,7)])
 
-    # # Pozbywamy się wierszy z NA
-    # df = df.dropna()
+    # Pozbywamy się wierszy z NA
+    df = df.dropna()
 
     # Konwertujemy kolumny z datami na liczby całkowite:
     df["starttime"] = pd.to_datetime(df["starttime"], format="%Y-%m-%d %H:%M:%S.%f").astype(int)
@@ -66,6 +66,8 @@ def main():
     print(scores)
     ax = sns.barplot(x=solver_list, y=scores)
     ax.set_title("Skuteczność przewidywania usertype dla danych z roku 2019")
+    ax.set_xlabel("Algorytm")
+    ax.set_ylabel("Skuteczność działania")
     ax.set(ylim=(min(scores)-0.0001,max(scores)+0.0001))
     fig = ax.get_figure()
     fig.savefig('usertypepredictionaccuracy.png')

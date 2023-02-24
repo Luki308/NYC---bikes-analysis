@@ -6,6 +6,7 @@
 
 # Załączamy potrzebne biblioteki:
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 import random as rand
 import numpy as np
@@ -18,15 +19,12 @@ def main():
     # Wczytujemy dane z 2016:
     df = pd.concat([pd.read_csv("../../data/2016/2016"+str(i).zfill(2)+"-citibike-tripdata.csv") for i in range(1,7)])
 
-    # # Pozbywamy się wierszy z NA
-    # df = df.dropna()
-
     # Konwertujemy kolumny z datami na liczby całkowite:
     df["starttime"] = pd.to_datetime(df["starttime"], format="%m/%d/%Y %H:%M:%S").astype(int)
     df["stoptime"] = pd.to_datetime(df["stoptime"], format="%m/%d/%Y %H:%M:%S").astype(int)
 
     # Pozbywamy się kolumn z nazwami stacji (regresja logistyczna nie obsłuży stringów)
-    df = df.drop(columns=["start station name","end station name","birth year","gender"])
+    df = df.drop(columns=["start station name","end station name"])
     df=df.fillna(0)
 
     # Przyporządkowujemy wartościom w kolumnie usertype 1 dla "Subscriber" i 0 dla pozostałych ("Customer")
@@ -65,11 +63,14 @@ def main():
 
     # Wyniki skuteczności przewidywania usertype
     print(scores)
+    plt.figure(figsize=(10,5))
     ax = sns.barplot(x=solver_list, y=scores)
     ax.set_title("Skuteczność przewidywania usertype dla danych z roku 2016")
+    ax.set_xlabel("Algorytm")
+    ax.set_ylabel("Skuteczność działania")
     ax.set(ylim=(min(scores)-0.0001,max(scores)+0.0001))
     fig = ax.get_figure()
-    fig.savefig('usertypepredictionaccuracy2016_clean.png')
+    fig.savefig('usertypepredictionaccuracy2016.png')
 
 
 if __name__ == "__main__":
