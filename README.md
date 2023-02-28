@@ -36,15 +36,19 @@ and using spatial objects.
 
 1. To start, I engaged in data cleansing, which included deleting empty and invalid rows (e.g. with age set to lower than 5 or average speed over 40 km/h). All analises we did were conducted on the cleansed data.
 
-![CleaningData2019](https://user-images.githubusercontent.com/100805060/221985102-f014ce46-b56d-4125-aa77-813c7be07678.png)
+<p align="center">
+<img alt= "CleaningData2019" src="https://user-images.githubusercontent.com/100805060/221985102-f014ce46-b56d-4125-aa77-813c7be07678.png">
+</p>
 
 2. Then I got round to an age analysis, in which I compared cyclists' age with distance they covered and their average speed.
-
-![AgeAnalysisDistance](https://user-images.githubusercontent.com/100805060/221985378-3602909d-4377-454b-93e9-8bcc481531e4.png)
-![AgeAnalysisSpeed](https://user-images.githubusercontent.com/100805060/221985468-8476e75b-89dc-46da-85fc-dca296d58a51.png)
-
+<p align="center">
+<img src="https://user-images.githubusercontent.com/100805060/221985378-3602909d-4377-454b-93e9-8bcc481531e4.png" alt="AgeAnalysisDistance" width=49%> <img src="https://user-images.githubusercontent.com/100805060/221990840-5ef6a2b5-edc5-4bbb-9f57-962aa87b185a.png" alt="AgeAnalysisSpeed" width=49%>
+</p>
+  
 3. Finally, I made a simple predictive model using logistic regression to predict user type (users with and without year subscription). 
 
-![usertypepredictionaccuracy2019](https://user-images.githubusercontent.com/100805060/221986629-d0bb842b-444e-4b38-9d8f-f394ea5a9cfb.png)
+<p align="center">
+<img alt= "usertypepredictionaccuracy2019" src="https://user-images.githubusercontent.com/100805060/221986629-d0bb842b-444e-4b38-9d8f-f394ea5a9cfb.png">
+</p>
 
 All my work was done in Python. This project allowed me to get the hang of predictive modelling with scikit-learn and improve my data analysis skills.
